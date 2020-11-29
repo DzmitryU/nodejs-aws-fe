@@ -13,9 +13,21 @@ axios.interceptors.response.use(
     return response;
   },
   function(error) {
-    if (error.response.status === 400) {
-      alert(error.response.data?.data);
-    }
+      let alertMessage = 'Unknown error type';
+      switch (error.response.status) {
+          case 400: {
+              alertMessage = error.response.data?.data;
+              break;
+          }
+          case 401: {
+              alertMessage = 'Unauthorized';
+              break;
+          }
+          case 403: {
+              alertMessage = 'Access Forbidden';
+          }
+      }
+    alert(alertMessage);
     return Promise.reject(error.response);
   }
 );
